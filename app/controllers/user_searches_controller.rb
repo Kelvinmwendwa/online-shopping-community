@@ -1,0 +1,2 @@
+class UserSearchesController < ApplicationController
+end
