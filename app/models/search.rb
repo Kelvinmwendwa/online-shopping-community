@@ -5,6 +5,6 @@ class Search < ApplicationRecord
 
     def crawl
         c=Crawler.new(self.search_term)
-        c.all_products
+        c.products
     end
 end
