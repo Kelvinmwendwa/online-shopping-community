@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-    belongs_to :searches
+    belongs_to :search
     validates :name, {
      presence: true
     }
