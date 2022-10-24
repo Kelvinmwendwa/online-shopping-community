@@ -55,3 +55,14 @@ group :development do
   # gem "spring"
 end
 
+gem 'wombat', '~> 3.0'
+gem 'nokogiri', '~> 1.13', '>= 1.13.9'
+gem 'watir', '~> 7.1'
+gem 'webdrivers', '~> 5.2'
+
+gem 'awesome_print', '~> 1.9', '>= 1.9.2'
+gem 'openssl', '~> 3.0', '>= 3.0.1'
+gem 'http', '~> 5.1'
+gem 'uri', '~> 0.11.0'
+gem 'byebug', '~> 11.1', '>= 11.1.3'
+
