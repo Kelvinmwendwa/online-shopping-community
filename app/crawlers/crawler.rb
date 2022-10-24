@@ -75,7 +75,7 @@ class Crawler
                 shop:"ebay",
                 search_id: @search_id
             }
-        end.slice(0,6)
+        end.slice(1,7)
         self.create_products(raw)
     end
     def sky_garden
@@ -96,7 +96,7 @@ class Crawler
       end
       def amazon
         articles = @pages[:amazon].xpath(".//div[@class='a-section a-spacing-base']")
-  
+
         raw=articles.map do |product|
             {
             image_url: product.xpath(".//img[@class='s-image']").attr("src").to_s,
@@ -116,7 +116,8 @@ class Crawler
         raw_products.map{|p| Product.create(p)}
     end
 
-    def all_products
-        [*self.jumia,*self.ebay,*self.sky_garden,*self.amazon]
-    end
+    # def all_products
+    #     byebug
+    #     [*self.jumia,*self.sky_garden,*self.amazon]
+    # end
 end
