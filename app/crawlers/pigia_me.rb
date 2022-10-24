@@ -22,8 +22,8 @@ class PigiaMe
 
       articles.map do |product|
         product = {
-          # img: product.xpath(".//div[@class='listing-card_image_inner']/img")
-          # name: product.xpath(".//div[@class='listing-card_header-content']/div")
+          img: product.xpath(".//div[@class='listing-card_image_inner']/img")
+          name: product.xpath(".//div[@class='listing-card_header-content']/div")
         }
       end
     end
