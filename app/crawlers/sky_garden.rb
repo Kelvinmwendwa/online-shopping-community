@@ -23,11 +23,15 @@ class SkyGarden
 
       articles.map do |product|
         product = {
-          img: product.xpath(".//img[@class='card-img ng-lazyloaded']").attr("data-src"),
-          name: product.xpath(".//p[@class='card-title']/text()").to_s
-
+          img: product.xpath(".//div[@class='card-img-container']/img").attr("src").to_s,
+          name: product.xpath(".//p[@class='card-title']/text()").to_s,
+          price: product.xpath(".//span[@class='price-normal ng-star-inserted']/text()").to_s,
+          price_before_discount: product.xpath(".//span[@class='price-original d-none d-sm-inline-block ng-star-inserted']/text()").to_s,
+          price_discounted: product.xpath(".//span[@class='price-discounted d-none d-sm-inline-block']/text()").to_s
+          # discount: "",
+          # ratings: "",
+          # rated_products: ""
         }
       end
     end
-    
 end
