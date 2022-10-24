@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_24_090136) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_24_123009) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.integer "price"
-    t.integer "price_before_dicount"
+    t.integer "price_before_discount"
     t.integer "discount"
     t.string "shop"
     t.string "image_url"
@@ -28,6 +28,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_24_090136) do
     t.string "coupon_discount"
     t.datetime "expire_at"
     t.integer "search_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "searches", force: :cascade do |t|
+    t.string "search_term"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_searches", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "search_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "username"
+    t.string "email"
+    t.string "location"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
