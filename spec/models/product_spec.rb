@@ -1,0 +1,11 @@
+require 'rails_helper'
+
+RSpec.describe Product, type: :model do
+    it{should belongs_to(:user)}
+
+    describe "validations" do
+        it{is_expected.to validate_presence_of(:name)}
+        it{is_expected.to validate_presence_of(:shop)}
+        it{is_expected.to validate_presence_of(:price)}
+    end
+end
