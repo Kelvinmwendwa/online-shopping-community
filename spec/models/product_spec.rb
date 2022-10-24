@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
-    it{should belongs_to(:user)}
+    it{should belong_to(:search)}
 
     describe "validations" do
         it{is_expected.to validate_presence_of(:name)}
