@@ -81,9 +81,7 @@ GEM
     byebug (11.1.3)
     case_transform (0.2)
       activesupport
-    childprocess (4.1.0)
     concurrent-ruby (1.1.10)
-    connection_pool (2.3.0)
     crass (1.0.6)
     debug (1.6.2)
       irb (>= 1.3.6)
@@ -103,7 +101,6 @@ GEM
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
       llhttp-ffi (~> 0.4.0)
-    http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
@@ -113,6 +110,7 @@ GEM
     irb (1.4.2)
       reline (>= 0.3.0)
     jsonapi-renderer (0.2.2)
+    jwt (2.5.0)
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
@@ -122,28 +120,10 @@ GEM
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (1.0.2)
-    mechanize (2.8.5)
-      addressable (~> 2.8)
-      domain_name (~> 0.5, >= 0.5.20190701)
-      http-cookie (~> 1.0, >= 1.0.3)
-      mime-types (~> 3.0)
-      net-http-digest_auth (~> 1.4, >= 1.4.1)
-      net-http-persistent (>= 2.5.2, < 5.0.dev)
-      nokogiri (~> 1.11, >= 1.11.2)
-      rubyntlm (~> 0.6, >= 0.6.3)
-      webrick (~> 1.7)
-      webrobots (~> 0.1.2)
     method_source (1.0.0)
-    mime-types (3.4.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2022.0105)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
     minitest (5.16.3)
     msgpack (1.6.0)
-    net-http-digest_auth (1.4.1)
-    net-http-persistent (4.0.1)
-      connection_pool (~> 2.2)
     net-imap (0.3.1)
       net-protocol
     net-pop (0.1.2)
@@ -152,11 +132,7 @@ GEM
       timeout
     net-smtp (0.3.2)
       net-protocol
-    netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.9)
-      mini_portile2 (~> 2.8.0)
-      racc (~> 1.4)
     nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
     openssl (3.0.1)
@@ -195,15 +171,8 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
-    regexp_parser (2.6.0)
     reline (0.3.1)
       io-console (~> 0.5)
-    rest-client (2.1.0)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
-    rexml (3.2.5)
     rspec-core (3.11.0)
       rspec-support (~> 3.11.0)
     rspec-expectations (3.11.1)
@@ -221,13 +190,6 @@ GEM
       rspec-mocks (~> 3.11)
       rspec-support (~> 3.11)
     rspec-support (3.11.1)
-    rubyntlm (0.6.3)
-    rubyzip (2.3.2)
-    selenium-webdriver (4.5.0)
-      childprocess (>= 0.5, < 5.0)
-      rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
-      websocket (~> 1.0)
     shoulda-matchers (5.2.0)
       activesupport (>= 5.2.0)
     thor (1.2.1)
@@ -238,27 +200,12 @@ GEM
       unf_ext
     unf_ext (0.0.8.2)
     uri (0.11.0)
-    watir (7.1.0)
-      regexp_parser (>= 1.2, < 3)
-      selenium-webdriver (~> 4.0)
-    webdrivers (5.2.0)
-      nokogiri (~> 1.6)
-      rubyzip (>= 1.3.0)
-      selenium-webdriver (~> 4.0)
-    webrick (1.7.0)
-    webrobots (0.1.2)
-    websocket (1.2.9)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    wombat (3.0.0)
-      activesupport
-      mechanize (~> 2.8.5)
-      rest-client
     zeitwerk (2.6.1)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES
@@ -269,7 +216,7 @@ DEPENDENCIES
   byebug (~> 11.1, >= 11.1.3)
   debug
   http (~> 5.1)
-  nokogiri (~> 1.13, >= 1.13.9)
+  jwt (~> 2.5)
   openssl (~> 3.0, >= 3.0.1)
   pg (~> 1.4.4)
   puma (~> 5.0)
@@ -278,9 +225,6 @@ DEPENDENCIES
   shoulda-matchers (~> 5.2)
   tzinfo-data
   uri (~> 0.11.0)
-  watir (~> 7.1)
-  webdrivers (~> 5.2)
-  wombat (~> 3.0)
 
 RUBY VERSION
    ruby 2.7.4p191

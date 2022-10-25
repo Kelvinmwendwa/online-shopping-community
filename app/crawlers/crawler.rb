@@ -2,25 +2,28 @@ require 'uri'
 require 'openssl'
 require "awesome_print"
 require 'nokogiri'
+require 'net/http'
 
 
 class Crawler
-    def initialize(search)
-        url_jumia = URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.jumia.co.ke%2fcatalog%2f%3fq%3d#{search}&api_key=6eV6gM5df91vMGdWk1L8kDt5boVIVCgz")
-       # url_killmall=URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.kilimall.co.ke%2fnew%2fcommoditysearch%3fq%3d#{search}&api_key=6eV6gM5df91vMGdWk1L8kDt5boVIVCgz")
+    def initialize(search,search_id)
+        url_jumia = URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.jumia.co.ke%2fcatalog%2f%3fq%3d#{search}&api_key=6eV6gM5df91vMGdWk1L8kDt5boVIVCgz&render_js=1&wait_until=networkidle2")
+        url_amazon=URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.amazon.com%2fs%3fk%3d#{search}&api_key=6eV6gM5df91vMGdWk1L8kDt5boVIVCgz&render_js=1&wait_until=domcontentloaded")
         url_ebay=URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.ebay.com%2fsch%2fi.html%3f_from%3dR40%26_trksid%3dp2380057.m570.l1313%26_nkw%3d#{search}&api_key=6eV6gM5df91vMGdWk1L8kDt5boVIVCgz")
+        url_sky=URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fsky.garden%2fsearch%2f#{search}%2fproducts&api_key=6eV6gM5df91vMGdWk1L8kDt5boVIVCgz&render_js=1&wait_until=domcontentloaded")
 
-
+       @search_id=search_id
        @pages={
         jumia: self.response(url_jumia),
-        # killmall: self.response(url_killmall)
-        ebay: self.response(url_ebay)
+        ebay: self.response(url_ebay),
+        sky_garden: response(url_sky),
+        amazon: self.response(url_amazon)
        }
     end
 
      def response(url)
         http=Net::HTTP.new(url.host,url.port)
-        http.use_ssl=true
+        http.use_ssl = true
         http.verify_mode=OpenSSL::SSL::VERIFY_NONE
 
         request=Net::HTTP::Get.new(url)
@@ -38,43 +41,29 @@ class Crawler
     end
 
 
-    def products_jumia
+    def jumia
         articles=@pages[:jumia].xpath("//div[@class='-paxs row _no-g _4cl-3cm-shs']/article/a")
-        articles.map do |product|
+        raw=articles.map do |product|
             product={
-                img: product.xpath(".//img[@class='img']").attr("data-src").to_s,
+                image_url: product.xpath(".//img[@class='img']").attr("data-src").to_s,
                 name: product.xpath(".//div[@class='info']/h3/text()").to_s,
                 price: product.xpath(".//div[@class='prc']/text()").to_s,
                 price_before_discount: product.xpath(".//div[@class='old']/text()").to_s,
                 discount: product.xpath(".//div[@class='bdg _dsct _sm']/text()").to_s,
-                ratings: product.xpath(".//div[@class='stars _s']/text()").to_s
+                ratings: product.xpath(".//div[@class='stars _s']/text()").to_s,
+                shop:"Jumia",
+                search_id: @search_id
             }  
-          end.filter{|product| product[:name] !=""}
+          end.slice(0,6)
+          self.create_products(raw)
     end
-    def products_killmall
-        cards=@pages[:killmall].xpath("//div[@class='el-row']/div/div")
-        byebug
-        cards.map do |card|
-            price=card.xpath(".//div[@class='wordwrap-price']")
-                {
-                   img:card.xpath(".//div[@class='imgClass']/img").attr("src").to_s,
-                   name:card.xpath(".//div[@class='wordwrap']/div/text()").to_s,
-                   price:price.xpath("./span[1]/text()").to_s,
-                   price_before_discount:price.xpath(".//span[@class='twoksh']/text()").to_s,
-                   discount:card.xpath(".//span[@class='greenbox']/text()").to_s,
-                   ratings:card.xpath(".//div[@class='el-rate rateList']").attr("aria-valuenow").to_s,
-                   rated_products: card.xpath(".//span[@class='sixtwo']/text()").to_s
-                }
-            end.filter{|product| product[:name]!=""}
-    end
-
-
-    def products_ebay
+  
+    def ebay
         cards=@pages[:ebay].xpath("//div[@class='s-item__wrapper clearfix']")
 
-        cards.map do |card|
+        raw=cards.map do |card|
             {
-                img:card.xpath(".//img[@class='s-item__image-img']").attr("src").to_s,
+                image_url:card.xpath(".//img[@class='s-item__image-img']").attr("src").to_s,
                 name:card.xpath(".//span[@role='heading']/text()").to_s,
                 price:card.xpath(".//span[@class='s-item__price']/text()").to_s,
                 price_before_discount: card.xpath(".//span[@class='STRIKETHROUGH']/text()").to_s,
@@ -83,8 +72,53 @@ class Crawler
                 rated_products:"",
                 return_policy:card.xpath(".//span[@class='s-item__free-returns s-item__freeReturnsNoFee']/text()").to_s,
                 shipping:card.xpath(".//span[@class='s-item__shipping s-item__logisticsCost']/text()").to_s,
-                coupon_discount: card.xpath(".//span[@class='NEGATIVE BOLD']/text()").to_s
+                coupon_discount: card.xpath(".//span[@class='NEGATIVE BOLD']/text()").to_s,
+                shop:"ebay",
+                search_id: @search_id
             }
-        end
+        end.slice(1,7)
+        self.create_products(raw)
     end
+    def sky_garden
+        articles = @pages[:sky_garden].xpath("//div[@class='col-lg-s-4 col-md-s-3 col-sm-s-6 center-flex no-padding ng-star-inserted']/app-product/div")
+
+       raw= articles.map do |product|
+         {
+            image_url: product.xpath(".//div[@class='card-img-container']/img").attr("src").to_s,
+            name: product.xpath(".//p[@class='card-title']/text()").to_s,
+            price: product.xpath(".//span[@class='price-normal ng-star-inserted']/text()").to_s,
+            price_before_discount: product.xpath(".//span[@class='price-original d-none d-sm-inline-block ng-star-inserted']/text()").to_s,
+            discount: product.xpath(".//span[@class='price-discounted d-none d-sm-inline-block']/text()").to_s,
+            shop:"sky garden",
+            search_id: @search_id
+          }
+        end.slice(0,6)
+        self.create_products(raw)
+      end
+      def amazon
+        articles = @pages[:amazon].xpath(".//div[@class='a-section a-spacing-base']")
+
+        raw=articles.map do |product|
+            {
+            image_url: product.xpath(".//img[@class='s-image']").attr("src").to_s,
+            name: product.xpath(".//span[@class='a-size-base-plus a-color-base a-text-normal']/text()").to_s,
+            price: product.xpath(".//span[@class='a-price']/span/text()").to_s,
+            price_before_discount: product.xpath(".//span[@class='a-price a-text-price']/span[1]/text()").to_s,
+            ratings: product.xpath(".//i[@class='a-icon a-icon-star-small a-star-small-4-5 aok-align-bottom']/span/text()").to_s,
+            rated_products: product.xpath(".//a[@class='a-link-normal s-underline-text s-underline-link-text s-link-style']/span/text()").to_s,
+            shop:"Amazon",
+            search_id: @search_id
+          }
+        end.slice(0,6)
+        self.create_products(raw)
+      end
+
+    def create_products(raw_products)
+        raw_products.map{|p| Product.create(p)}
+    end
+
+    # def all_products
+    #     byebug
+    #     [*self.jumia,*self.sky_garden,*self.amazon]
+    # end
 end
