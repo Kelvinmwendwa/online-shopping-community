@@ -6,4 +6,8 @@ Rails.application.routes.draw do
   resources :products
 
   post '/search', to: "searches#create"
+
+  post '/signup', to: 'users#create'
+  post '/login', to: 'auth#create'
+  get 'me', to: 'users#profile'
 end
