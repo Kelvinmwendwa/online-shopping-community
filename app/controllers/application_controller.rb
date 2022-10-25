@@ -32,12 +32,13 @@ def decode_token
 end
 
 def auth_header
-    request.headers["Authoruzation"]
+    request.headers["Authorization"]
 end
 
 def current_user
     if decode_token
-        user=User.find_by(id: decode_token[0][:user_id])
+        user_id=decode_token[0]["user_id"]
+        user=User.find_by(id: user_id)
     end
 end
 
