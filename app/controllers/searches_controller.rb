@@ -1,10 +1,7 @@
 class SearchesController < ApplicationController
 
     def create
-        search=Search.find_by(search_term:params[:search_term])
-
-        search=Search.create(search_term: params[:search_term]) unless search
-        
+        search=Search.create!(search_term: params[:search])
         render json: search.products, status: :ok
     end
 end
