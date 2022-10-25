@@ -1,6 +1,8 @@
 class UsersController < ApplicationController 
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
-    before_action :authorize, only[:profile]
+    
+    before_action :authorize, only:[:profile]
+    
     def create
         user=User.create!(user_params)
         token=encode_token(user_id: user.id)
