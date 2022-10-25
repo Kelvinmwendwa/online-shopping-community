@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Product, type: :model  do
+RSpec.describe User, type: :model  do
     it "creates a user successfully with valid data" do
         user=User.create(name:"Sam Pull",user_name:"sam_pull",email:"donjoe@gmail.com",password:"supersEcret",passsword_confirmation:"supersEcret",location:"Nairobi")
         expect(user).to be_valid
