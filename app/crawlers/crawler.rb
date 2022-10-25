@@ -2,6 +2,7 @@ require 'uri'
 require 'openssl'
 require "awesome_print"
 require 'nokogiri'
+require 'net/http'
 
 
 class Crawler
@@ -22,7 +23,7 @@ class Crawler
 
      def response(url)
         http=Net::HTTP.new(url.host,url.port)
-        http.use_ssl=true
+        http.use_ssl = true
         http.verify_mode=OpenSSL::SSL::VERIFY_NONE
 
         request=Net::HTTP::Get.new(url)
