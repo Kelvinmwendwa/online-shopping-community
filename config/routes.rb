@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   # root "articles#index"
   resources :products
 
-  post "search", to: "searches#create"
+  post "/search", to: "searches#create"
 end
