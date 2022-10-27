@@ -13,4 +13,9 @@ Rails.application.routes.draw do
   get 'me', to: 'users#profile'
 
   get "searches", to: "searches#index"
+
+  get "trends", to: "searches#trends"
+
+  get "trends/:search_id" , to: "products#trending"
+  get "toptrends", to: "products#toptrends"
 end
