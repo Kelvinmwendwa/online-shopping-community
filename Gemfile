@@ -40,7 +40,7 @@ gem 'active_model_serializers', '~> 0.10.13'
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem "rack-cors"
+gem "rack-cors"
 
 # implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
 gem 'jwt', '~> 2.5'
@@ -49,6 +49,9 @@ gem 'jwt', '~> 2.5'
 gem 'openssl', '~> 3.0', '>= 3.0.1'
 gem 'http', '~> 5.1'
 gem 'uri', '~> 0.11.0'
+
+#for pluralizing words
+gem 'plural'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
