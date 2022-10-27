@@ -36,11 +36,6 @@ class Crawler
         parsed_page=Nokogiri::HTML(browser_html)  
     end
 
-    def parsed_pages
-        @pages
-    end
-
-
     def jumia
         articles=@pages[:jumia].xpath("//div[@class='-paxs row _no-g _4cl-3cm-shs']/article/a")
         raw=articles.map do |product|
@@ -50,8 +45,8 @@ class Crawler
                 price: product.xpath(".//div[@class='prc']/text()").to_s,
                 price_before_discount: product.xpath(".//div[@class='old']/text()").to_s,
                 discount: product.xpath(".//div[@class='bdg _dsct _sm']/text()").to_s,
-                ratings: product.xpath(".//div[@class='stars _s']/text()").to_s,
-                shop:"Jumia",
+                ratings: count_stars(product.xpath(".//div[@class='stars _s']/text()").to_s),
+                shop:"jumia",
                 search_id: @search_id
             }  
           end.slice(0,6)
@@ -104,9 +99,9 @@ class Crawler
             name: product.xpath(".//span[@class='a-size-base-plus a-color-base a-text-normal']/text()").to_s,
             price: product.xpath(".//span[@class='a-price']/span/text()").to_s,
             price_before_discount: product.xpath(".//span[@class='a-price a-text-price']/span[1]/text()").to_s,
-            ratings: product.xpath(".//i[@class='a-icon a-icon-star-small a-star-small-4-5 aok-align-bottom']/span/text()").to_s,
+            ratings:count_stars(product.xpath(".//i[@class='a-icon a-icon-star-small a-star-small-4-5 aok-align-bottom']/span/text()").to_s),
             rated_products: product.xpath(".//a[@class='a-link-normal s-underline-text s-underline-link-text s-link-style']/span/text()").to_s,
-            shop:"Amazon",
+            shop:"amazon",
             search_id: @search_id
           }
         end.slice(0,6)
@@ -117,8 +112,14 @@ class Crawler
         raw_products.map{|p| Product.create(p)}
     end
 
-    # def all_products
-    #     byebug
-    #     [*self.jumia,*self.sky_garden,*self.amazon]
-    # end
+    private
+    def count_stars(stars)
+        s=stars.scan(/[1-5]/)
+        if s[1]=="."
+            s=s.slice(0,3)
+            s.join("").to_f.round
+        else
+            s.first.to_i
+        end
+    end
 end
