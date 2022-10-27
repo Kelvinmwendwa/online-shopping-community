@@ -4,4 +4,12 @@ class ProductsController < ApplicationController
 
         render json: product, status: :ok
     end
+    def trending
+        search=Search.find_by(id: params[:search_id])
+
+        render json: search.products
+    end
+    def toptrends
+        render json: Search.all.order_by_count.limit(1).first.products
+    end
 end
