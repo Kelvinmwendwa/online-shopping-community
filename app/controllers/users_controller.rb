@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
     private
     def user_params
-        params.permit :username,:password,:password_confirmation,:email,:location
+        params.permit :name, :username,:password,:password_confirmation,:email,:location
     end
 
     def render_unprocessable_entity_response(invalid)
