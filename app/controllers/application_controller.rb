@@ -22,7 +22,7 @@ end
 
 def decode_token
     if auth_header
-        token=auth_header.split(" ").last
+        token=JSON.parse(auth_header.split(" ").last)
         begin
             JWT.decode(token,"bReachers&ecret",true,algorithm:'HS256')
         rescue JWT::DecodeError

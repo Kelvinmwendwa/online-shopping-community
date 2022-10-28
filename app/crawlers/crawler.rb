@@ -16,7 +16,6 @@ class Crawler
        @pages={
         jumia: self.response(url_jumia),
         ebay: self.response(url_ebay),
-        sky_garden: response(url_sky),
         amazon: self.response(url_amazon)
        }
     end
@@ -74,22 +73,7 @@ class Crawler
         end.slice(1,7)
         self.create_products(raw)
     end
-    def sky_garden
-        articles = @pages[:sky_garden].xpath("//div[@class='col-lg-s-4 col-md-s-3 col-sm-s-6 center-flex no-padding ng-star-inserted']/app-product/div")
-
-       raw= articles.map do |product|
-         {
-            image_url: product.xpath(".//div[@class='card-img-container']/img").attr("src").to_s,
-            name: product.xpath(".//p[@class='card-title']/text()").to_s,
-            price: product.xpath(".//span[@class='price-normal ng-star-inserted']/text()").to_s,
-            price_before_discount: product.xpath(".//span[@class='price-original d-none d-sm-inline-block ng-star-inserted']/text()").to_s,
-            discount: product.xpath(".//span[@class='price-discounted d-none d-sm-inline-block']/text()").to_s,
-            shop:"sky garden",
-            search_id: @search_id
-          }
-        end.slice(0,6)
-        self.create_products(raw)
-      end
+   
       def amazon
         articles = @pages[:amazon].xpath(".//div[@class='a-section a-spacing-base']")
 
