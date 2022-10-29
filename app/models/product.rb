@@ -1,4 +1,8 @@
 class Product < ApplicationRecord
+
+
+    default_scope ->{order(price_index: :asc)}
+
     belongs_to :search
     
     validates :name, {

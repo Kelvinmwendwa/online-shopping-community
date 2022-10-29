@@ -37,15 +37,17 @@ class Crawler
 
     def jumia
         articles=@pages[:jumia].xpath("//div[@class='-paxs row _no-g _4cl-3cm-shs']/article/a")
-        raw=articles.map do |product|
+        raw=articles.map.with_index do |product,index|
+            price=product.xpath(".//div[@class='prc']/text()").to_s
             product={
                 image_url: product.xpath(".//img[@class='img']").attr("data-src").to_s,
                 name: product.xpath(".//div[@class='info']/h3/text()").to_s,
-                price: product.xpath(".//div[@class='prc']/text()").to_s,
+                price: price,
                 price_before_discount: product.xpath(".//div[@class='old']/text()").to_s,
                 discount: product.xpath(".//div[@class='bdg _dsct _sm']/text()").to_s,
                 ratings: count_stars(product.xpath(".//div[@class='stars _s']/text()").to_s),
                 shop:"jumia",
+                price_index: calculate_price_index(float_price(price),index),
                 search_id: @search_id
             }  
           end.slice(0,6)
@@ -55,11 +57,12 @@ class Crawler
     def ebay
         cards=@pages[:ebay].xpath("//div[@class='s-item__wrapper clearfix']")
 
-        raw=cards.map do |card|
+        raw=cards.map.with_index do |card,index|
+            price=card.xpath(".//span[@class='s-item__price']/text()").to_s
             {
                 image_url:card.xpath(".//img[@class='s-item__image-img']").attr("src").to_s,
                 name:card.xpath(".//span[@role='heading']/text()").to_s,
-                price:card.xpath(".//span[@class='s-item__price']/text()").to_s,
+                price:price,
                 price_before_discount: card.xpath(".//span[@class='STRIKETHROUGH']/text()").to_s,
                 discount: card.xpath(".//span[@class='BOLD']/text()").to_s,
                 ratings:"",
@@ -68,6 +71,7 @@ class Crawler
                 shipping:card.xpath(".//span[@class='s-item__shipping s-item__logisticsCost']/text()").to_s,
                 coupon_discount: card.xpath(".//span[@class='NEGATIVE BOLD']/text()").to_s,
                 shop:"ebay",
+                price_index: calculate_price_index(dollar_price(price),index),
                 search_id: @search_id
             }
         end.slice(1,7)
@@ -77,15 +81,17 @@ class Crawler
       def amazon
         articles = @pages[:amazon].xpath(".//div[@class='a-section a-spacing-base']")
 
-        raw=articles.map do |product|
+        raw=articles.map.with_index do |product,index|
+            price=product.xpath(".//span[@class='a-price']/span/text()").to_s
             {
             image_url: product.xpath(".//img[@class='s-image']").attr("src").to_s,
             name: product.xpath(".//span[@class='a-size-base-plus a-color-base a-text-normal']/text()").to_s,
-            price: product.xpath(".//span[@class='a-price']/span/text()").to_s,
+            price: price,
             price_before_discount: product.xpath(".//span[@class='a-price a-text-price']/span[1]/text()").to_s,
             ratings:count_stars(product.xpath(".//i[@class='a-icon a-icon-star-small a-star-small-4-5 aok-align-bottom']/span/text()").to_s),
             rated_products: product.xpath(".//a[@class='a-link-normal s-underline-text s-underline-link-text s-link-style']/span/text()").to_s,
             shop:"amazon",
+            price_index: calculate_price_index(dollar_price(price),index),
             search_id: @search_id
           }
         end.slice(0,6)
@@ -105,5 +111,16 @@ class Crawler
         else
             s.first.to_i
         end
+    end
+    def float_price(price)
+        price.scan(/[0-9\.]+/).first.to_f
+    end
+
+    def dollar_price(price)
+        float_price(price)*100
+    end
+
+    def calculate_price_index(price,index)
+        (10*index)+price/10
     end
 end
