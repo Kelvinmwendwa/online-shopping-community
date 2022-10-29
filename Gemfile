@@ -30,6 +30,9 @@ gem "bcrypt", "~> 3.1.7"
 #allows you to generate your JSON in an object-oriented and convention-driven manner.
 gem 'active_model_serializers', '~> 0.10.13'
 
+# Devise is a flexible authentication solution for Rails
+gem "devise", "~>4.8", ">=4.8.1"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
@@ -68,6 +71,8 @@ end
 group :development do
 
 gem 'byebug', '~> 11.1', '>= 11.1.3'
+
+gem 'dotenv', '~> 2.1', '>= 2.1.1'
 
 gem 'awesome_print', '~> 1.9', '>= 1.9.2'
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
