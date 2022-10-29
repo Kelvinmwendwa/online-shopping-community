@@ -20,7 +20,7 @@ module OnlineShoppingCommunity
     # config.eager_load_paths << Rails.root.join("extras")
 
    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
+    # config.assets.version = '1.0'
 
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
