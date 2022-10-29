@@ -32,7 +32,7 @@ module OnlineShoppingCommunity
     config.middleware.insert_before 0, Rack::Cors do
       allow do
          origins '*'
-         resource '*', :headers => :any, :methods => [:get, :post, :options, :head], credentials:true
+         resource '*', :headers => :any, :methods => [:get, :post, :options, :head]
        end
     end
     # Only loads a smaller set of middleware suitable for API only apps.

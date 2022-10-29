@@ -6,8 +6,10 @@ class SearchesController < ApplicationController
         term=params[:search_term].downcase
         search=Search.find_by(search_term:term)
 
-        
-        search.update(count: search.count+1) if search
+        if search && search.products.length ==0
+            search.update(count: 1)
+            search.crawl
+        end
 
         search=Search.create(search_term: term) unless search
 
