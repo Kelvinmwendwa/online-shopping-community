@@ -33,3 +33,5 @@ See the section about [running tests](https://guides.rubyonrails.org/testing.htm
 ```
 ruby online-shopping-community
 ```
+
+<h2>🍰 Contribution Guidelines:</h2>
