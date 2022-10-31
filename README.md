@@ -47,3 +47,5 @@ Technologies used in the project:
 <h2>🛡️ License:</h2>
 
 This project is licensed under the
+
+<h2>💖Like our work?</h2>
