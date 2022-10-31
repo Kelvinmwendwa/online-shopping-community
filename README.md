@@ -23,3 +23,5 @@ The page will reload if you make edits.\
 You will also see any lint errors in the console.
 *   News about various categories delivered in form of stories
 *   New from over 9 distinct categories
+
+<h2>🛠️ Installation Steps:</h2>
