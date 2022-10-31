@@ -1,6 +1,8 @@
-require_relative "boot"
+# frozen_string_literal: true
 
-require "rails/all"
+require_relative 'boot'
+
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -19,20 +21,22 @@ module OnlineShoppingCommunity
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-   # Version of your assets, change this if you want to expire all your assets
+    # Version of your assets, change this if you want to expire all your assets
 
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
-      YAML.load(File.open(env_file)).each do |key, value|
-        ENV[key.to_s] = value
-      end if File.exists?(env_file)
+      if File.exist?(env_file)
+        YAML.safe_load(File.open(env_file)).each do |key, value|
+          ENV[key.to_s] = value
+        end
+      end
     end
-    
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-         origins '*'
-         resource '*', :headers => :any, :methods => [:get, :post, :options, :head]
-       end
+        origins '*'
+        resource '*', headers: :any, methods: %i[get post options head]
+      end
     end
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
@@ -40,5 +44,3 @@ module OnlineShoppingCommunity
     config.api_only = true
   end
 end
-
-

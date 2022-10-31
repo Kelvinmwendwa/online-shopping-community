@@ -22,3 +22,10 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+CI/CD
+``rubocop --parallel -A``
+checks for offenses and auto-corrects them
+
+``rubocop --auto-gen-config`` 
+auto generates rubocop linting config

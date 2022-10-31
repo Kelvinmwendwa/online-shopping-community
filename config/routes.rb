@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -6,16 +8,16 @@ Rails.application.routes.draw do
   resources :products
   resources :users
 
-  post '/search', to: "searches#create"
+  post '/search', to: 'searches#create'
 
   post '/signup', to: 'users#create'
   post '/login', to: 'auth#create'
   get 'me', to: 'users#profile'
 
-  get "searches", to: "searches#index"
+  get 'searches', to: 'searches#index'
 
-  get "trends", to: "searches#trends"
+  get 'trends', to: 'searches#trends'
 
-  get "trends/:search_id" , to: "products#trending"
-  get "toptrends", to: "products#toptrends"
+  get 'trends/:search_id', to: 'products#trending'
+  get 'toptrends', to: 'products#toptrends'
 end
