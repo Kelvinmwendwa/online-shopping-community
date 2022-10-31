@@ -8,10 +8,11 @@ require 'net/http'
 
 class Crawler
   def initialize(search, search_id)
-    url_jumia = URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.jumia.co.ke%2fcatalog%2f%3fq%3d#{search}&api_key=6eV6gM5df91vMGdWk1L8kDt5boVIVCgz&render_js=1&wait_until=networkidle2")
-    url_amazon = URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.amazon.com%2fs%3fk%3d#{search}&api_key=6eV6gM5df91vMGdWk1L8kDt5boVIVCgz&render_js=1&wait_until=domcontentloaded")
-    url_ebay = URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.ebay.com%2fsch%2fi.html%3f_from%3dR40%26_trksid%3dp2380057.m570.l1313%26_nkw%3d#{search}&api_key=6eV6gM5df91vMGdWk1L8kDt5boVIVCgz")
-    url_sky = URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fsky.garden%2fsearch%2f#{search}%2fproducts&api_key=6eV6gM5df91vMGdWk1L8kDt5boVIVCgz&render_js=1&wait_until=domcontentloaded")
+    key = '9lSwt8nLosyS3gbo5mUswDFEXIjLGAgf'
+
+    url_jumia = URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.jumia.co.ke%2fcatalog%2f%3fq%3d#{search}&api_key=#{key}&render_js=1&wait_until=networkidle2")
+    url_amazon = URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.amazon.com%2fs%3fk%3d#{search}&api_key=#{key}&render_js=1&wait_until=domcontentloaded")
+    url_ebay = URI("https://api.webscrapingapi.com/v1?url=https%3a%2f%2fwww.ebay.com%2fsch%2fi.html%3f_from%3dR40%26_trksid%3dp2380057.m570.l1313%26_nkw%3d#{search}&api_key=#{key}")
 
     @search_id = search_id
     @pages = {
@@ -24,7 +25,7 @@ class Crawler
   def response(url)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
     request = Net::HTTP::Get.new(url)
 
@@ -100,7 +101,7 @@ class Crawler
   end
 
   def create_products(raw_products)
-    raw_products.map { |p| Product.create(p) } if raw_products
+    raw_products&.map { |p| Product.create(p) }
   end
 
   private
