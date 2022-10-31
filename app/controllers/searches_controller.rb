@@ -9,6 +9,8 @@ class SearchesController < ApplicationController
         if search && search.products.length ==0
             search.update(count: 1)
             search.crawl
+        elsif search
+            search.update(count: search.count+1)
         end
 
         search=Search.create(search_term: term) unless search
