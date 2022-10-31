@@ -8,7 +8,7 @@ RSpec.describe Search, type: :model do
     expect(search).to be_valid
   end
 
-  it { should has_many(:products) }
+  it { should have_many(:products) }
 
   describe 'Validations' do
     it { is_expected.to validate_presence_of(:search_term) }

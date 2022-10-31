@@ -100,7 +100,7 @@ class Crawler
   end
 
   def create_products(raw_products)
-    raw_products.map { |p| Product.create(p) }
+    raw_products.map { |p| Product.create(p) } if raw_products
   end
 
   private
