@@ -39,3 +39,7 @@ ruby online-shopping-community
 Please contribute using GitHub Flow. Create a branch add commits and open a pull request.
 
 <h2>💻 Built with</h2>
+
+Technologies used in the project:
+
+*   Rails
