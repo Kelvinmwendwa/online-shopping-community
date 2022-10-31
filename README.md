@@ -43,3 +43,5 @@ Please contribute using GitHub Flow. Create a branch add commits and open a pull
 Technologies used in the project:
 
 *   Rails
+
+<h2>🛡️ License:</h2>
