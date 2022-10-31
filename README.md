@@ -25,3 +25,11 @@ You will also see any lint errors in the console.
 *   New from over 9 distinct categories
 
 <h2>🛠️ Installation Steps:</h2>
+
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://guides.rubyonrails.org/testing.html) for more information.
+<p> Run the app in the development mode.</p>
+
+```
+ruby online-shopping-community
+```
