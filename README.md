@@ -12,3 +12,5 @@ This is the backend for the Online Shopping community where our API exists and o
 [https:](https:)
 
 <h2>Project Screenshots:</h2>
+
+<h2>🧐 Features</h2>
