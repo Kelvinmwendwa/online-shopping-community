@@ -50,7 +50,7 @@ class Crawler
         price_before_discount: product.xpath(".//div[@class='old']/text()").to_s,
         discount: product.xpath(".//div[@class='bdg _dsct _sm']/text()").to_s,
         ratings: count_stars(product.xpath(".//div[@class='stars _s']/text()").to_s),
-        rated_products:product.xpath(".//div[@class='rev']/text").to_s.scan(/\d+/).first.to_i,
+        rated_products: product.xpath(".//div[@class='rev']/text").to_s.scan(/\d+/).first.to_i,
         shop: 'jumia',
         price_index: calculate_price_index(float_price(price), index),
         search_id: @search_id,
@@ -95,7 +95,7 @@ class Crawler
         price_before_discount: product.xpath(".//span[@class='a-price a-text-price']/span[1]/text()").to_s,
         ratings: count_stars(product.xpath(".//i[@class='a-icon a-icon-star-small a-star-small-4-5 aok-align-bottom']/span/text()").to_s),
         rated_products: product.xpath(".//a[@class='a-link-normal s-underline-text s-underline-link-text s-link-style']/span/text()").to_s,
-        products_sold:"",
+        products_sold: '',
         shop: 'amazon',
         price_index: calculate_price_index(dollar_price(price), index),
         search_id: @search_id,
@@ -108,6 +108,4 @@ class Crawler
   def create_products(raw_products)
     raw_products&.map { |p| Product.create(p) }
   end
-
- 
 end
