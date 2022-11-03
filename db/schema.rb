@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_02_170420) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_03_053830) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_02_170420) do
     t.string "discount"
     t.string "shop"
     t.string "image_url"
-    t.string "ratings"
+    t.string "ratings", default: "0"
     t.string "return_policy"
     t.string "shipping"
     t.string "coupon_discount"
