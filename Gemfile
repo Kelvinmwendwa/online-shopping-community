@@ -54,6 +54,7 @@ gem 'jwt', '~> 2.5'
 gem 'http', '~> 5.1'
 gem 'openssl', '~> 3.0', '>= 3.0.1'
 gem 'uri', '~> 0.11.0'
+gem "net-http"
 
 # for pluralizing words
 gem 'plural'
