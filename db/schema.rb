@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_27_155246) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_03_053830) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,8 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_27_155246) do
     t.string "discount"
     t.string "shop"
     t.string "image_url"
-    t.string "ratings"
-    t.string "rated_products"
+    t.string "ratings", default: "0"
     t.string "return_policy"
     t.string "shipping"
     t.string "coupon_discount"
@@ -30,6 +29,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_27_155246) do
     t.integer "search_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "price_index", default: 1
+    t.integer "rated_products", default: 0
+    t.integer "products_sold", default: 0
+    t.string "product_url"
+    t.integer "price_normal"
   end
 
   create_table "searches", force: :cascade do |t|
