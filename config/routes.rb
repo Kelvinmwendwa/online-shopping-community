@@ -21,4 +21,6 @@ Rails.application.routes.draw do
   get 'toptrends', to: 'products#toptrends'
 
   get 'history', to: 'searches#history'
+  
+  root "welcome#index"
 end
