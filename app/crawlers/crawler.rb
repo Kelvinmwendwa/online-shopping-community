@@ -18,11 +18,6 @@ class Crawler
 
     @search_id = search_id
     @search=search
-    # @pages = {
-    #   jumia: response(url_jumia),
-    #   ebay: response(url_ebay),
-    #   amazon: response(url_amazon)
-    # }
   end
 
   def response(url)
@@ -43,7 +38,6 @@ class Crawler
   def jumia
     articles = response(@url_jumia).xpath("//div[@class='-paxs row _no-g _4cl-3cm-shs']/article/a")
     raw = articles.map.with_index do |product, index|
-      byebug
       price = product.xpath(".//div[@class='prc']/text()").to_s
       product = {
         image_url: product.xpath(".//img[@class='img']").attr('data-src').to_s,
@@ -56,16 +50,15 @@ class Crawler
         shop: 'jumia',
         price_index: calculate_price_index(float_price(price), index),
         search_id: @search_id,
-        product_url: "https%3a%2f%2fwww.jumia.co.ke%2fcatalog%2f%3fq%3d#{@search}",
+        product_url: "https://www.jumia.co.ke/catalog/?q=#{@search}",
         price_normal: float_price(price)
       }
-    end.slice(0, 6)
+    end.slice(0, 8)
     create_products(raw)
   end
 
   def ebay
     cards = response(@url_ebay).xpath("//div[@class='s-item__wrapper clearfix']")
-    byebug
     raw = cards.map.with_index do |card, index|
       price = card.xpath(".//span[@class='s-item__price']/text()").to_s
       {
@@ -82,16 +75,15 @@ class Crawler
         shop: 'ebay',
         price_index: calculate_price_index(dollar_price(price), index),
         search_id: @search_id,
-        product_url: "https%3a%2f%2fwww.ebay.com%2fsch%2fi.html%3f_from%3dR40%26_trksid%3dp2380057.m570.l1313%26_nkw%3d#{@search}",
+        product_url: "https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=#{@search}",
         price_normal: dollar_price(price)
       }
-    end.slice(1, 7)
+    end.slice(1, 9)
     create_products(raw)
   end
 
   def amazon
     articles = response(@url_amazon).xpath(".//div[@class='a-section a-spacing-base']")
-    byebug
     raw = articles.map.with_index do |product, index|
       price = product.xpath(".//span[@class='a-price']/span/text()").to_s
       {
@@ -105,10 +97,10 @@ class Crawler
         shop: 'amazon',
         price_index: calculate_price_index(dollar_price(price), index),
         search_id: @search_id,
-        product_url: "https%3a%2f%2fwww.amazon.com%2fs%3fk%3d#{@search}",
+        product_url:"https://www.amazon.com/s?k=#{@search}",
         price_normal: dollar_price(price)
       }
-    end.slice(0, 6)
+    end.slice(0, 8)
     create_products(raw)
   end
 
