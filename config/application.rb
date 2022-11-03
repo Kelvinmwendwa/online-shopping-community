@@ -34,15 +34,9 @@ module OnlineShoppingCommunity
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-<<<<<<< HEAD
-         origins '*'
-         resource '*', :headers => :any, :methods => [:get, :post, :options, :head]
-       end
-=======
         origins '*'
         resource '*', headers: :any, methods: %i[get post options head]
       end
->>>>>>> 90e96e3b1bf1c51323e15aac43e8d9f3152539f5
     end
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
