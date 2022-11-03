@@ -55,6 +55,7 @@ gem 'http', '~> 5.1'
 gem 'openssl', '~> 3.0', '>= 3.0.1'
 gem 'uri', '~> 0.11.0'
 gem "net-http"
+gem 'thin'
 
 # for pluralizing words
 gem 'plural'
